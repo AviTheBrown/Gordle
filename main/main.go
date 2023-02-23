@@ -1,5 +1,10 @@
 package main
 
-func main() {
+import (
+    "gordle/gordle"
+)
 
+func main() {
+    g := gordle.New()
+    g.Play()
 }
