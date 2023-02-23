@@ -21,20 +21,32 @@ func New(playerInfo io.Reader) *Game {
 }
 
 const wordlength = 5
-func (g *Game) ask() []rune  {
+func (g *Game) Ask() []rune  {
     fmt.Printf("Enter a %d-character guess:\n", wordlength)
-
     for  {
+        // reads users input as a string of bytes
         playerInput, _, err := g.reader.ReadLine()
         if err != nil {
             _, _ = fmt.Fprintf(os.Stdout, "Gordle failed to read your guess: %s\n, ",
                 err.Error())
+                continue
         }
+        // conversts the string of bytes into a rune slice
         guess :=[]rune(string(playerInput))
+        if len(guess) != wordlength {
+            _, _ = fmt.Fprintf(os.Stderr, "Sorry, your attempt is invalid with Gordle's solution! " +
+                "Expected %d character, got %d characters.\n", wordlength, len(guess))
+        } else {
+            return guess
+        }
     }
 }
 
 func (g *Game) Play() {
-    fmt.Println("Welcome to Gordle 😎")
-    fmt.Printf("Enter a guess: \n")
+    fmt.Println("🎉 Welcome to Gordle 🎉")
+
+    // ask the user for a word
+    guess := g.Ask()
+                            // stringify the runes
+    fmt.Printf("Your guess was %s \n", string(guess))
 }
