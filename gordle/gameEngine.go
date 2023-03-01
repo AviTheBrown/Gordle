@@ -34,12 +34,20 @@ func (g *Game) Ask() []rune  {
         // conversts the string of bytes into a rune slice
         guess :=[]rune(string(playerInput))
         if len(guess) != wordlength {
-            _, _ = fmt.Fprintf(os.Stderr, "Sorry, your attempt is invalid with Gordle's solution! " +
+            _, _ = fmt.Fprintf(os.Stderr, "Sorry, your attempt is invalid with Gordle's solution!\n" +
                 "Expected %d character, got %d characters.\n", wordlength, len(guess))
         } else {
             return guess
         }
     }
+}
+var errInvalidWordLength = fmt.Errorf("invalid guess, word doesn't have the same number of characters as the solution")
+
+func (g *Game) validateGuess(guess []rune) error {
+    if len(guess) != wordlength {
+        return fmt.Errorf("expected %d, got %d, %w", wordlength, len(guess), errInvalidWordLength )
+    }
+    return nil
 }
 
 func (g *Game) Play() {
