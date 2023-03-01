@@ -9,8 +9,6 @@ import (
 
 )
 
-
-
 func TestGameAsk(t *testing.T) {
 
     testCase := map[string]struct{
@@ -37,7 +35,7 @@ func TestGameAsk(t *testing.T) {
 
     for name, tc := range testCase {
         t.Run(name, func(t *testing.T) {
-            g := gordle.New(strings.NewReader(tc.input))
+            g := gordle.New(strings.NewReader(tc.input), string(tc.want), 0)
             got := g.Ask()
 
             if !slices.Equal(got, tc.want) {
