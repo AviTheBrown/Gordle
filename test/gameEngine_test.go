@@ -1,6 +1,7 @@
 package test
 
 import (
+    "errors"
     "gordle/gordle"
     "strings"
     "testing"
@@ -45,5 +46,49 @@ func TestGameAsk(t *testing.T) {
             }
         })
     }
+
+}
+
+func TestValidateGuess(t *testing.T) {
+    // needs to test the input of the parameters
+        // determin if the parameters are runes or not.
+    // test the word length
+        // correct and incorrect lenghts
+    // test the erroe message and if it displays correctly
+
+    // prep phase
+    tt := map[string]struct{
+        word []rune
+        expected error
+    }{
+        "nominal" : {
+            word: []rune("GUESS"),
+            expected: nil,
+        },
+        "too long" : {
+            word:     []rune("Lunchbox"),
+            expected: gordle.ErrInvalidWordLength,
+        },
+        "too short" : {
+            word: []rune("egg"),
+            expected: gordle.ErrInvalidWordLength,
+        },
+    }
+
+    // execution phase
+    for name, tc := range tt {
+        t.Run(name, func(t *testing.T) {
+            g := gordle.New(nil)
+
+            err := g.ValidateGuess(tc.word)
+    //validation phase
+            if !errors.Is(err,tc.expected) {
+                t.Errorf("%c, expected %q, got %q", tc.word, tc.expected, err)
+            }
+        })
+    }
+
+
+
 
 }
