@@ -64,17 +64,18 @@ func SplitToUppercaseCharacters(intput string) []rune {
 }
 
 func (g *Game) Play() {
-	fmt.Println("🎉 Welcome to Gordle 🎉")
+	fmt.Println("🔠 Welcome to Gordle 🔠")
 
 	// ask the user for a word with loop
 	for currentAttempt := 1; currentAttempt <= g.maxAttempts; currentAttempt++ {
 		guess := g.Ask()
 		// stringify the runes
-		fmt.Printf("Your guess was %s \n", string(guess))
+		fmt.Printf("Your guess was %s.\n You have %d more attempts.\n", string(guess), (g.maxAttempts - currentAttempt))
         // conspare the two slices  of runes
 		if slices.Equal(guess, g.solution) {
-			fmt.Printf("You won!, you guessed it in %d tries: the word was %s.\n",
+            fmt.Printf("🎉 You won! 🎉 , you guessed it in %d tries: the word was %s.\n",
                 currentAttempt, string(g.solution))
 		}
 	}
+    fmt.Printf("You lost! The solution was %s .\n", string(g.solution))
 }
